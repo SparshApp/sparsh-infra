@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    build: 
+      context: nginx
+    ports:
+      - 80:80
+      # - 443:443
+    volumes:
+      - staticbuild:/app/public
+    # depends_on:
+    #   - sparsh-ui
+    #   - sparsh-api
+    networks:
+      sparsh-network:
+        aliases:
+          - nginx
+  
+  infra:
+    container_name: infra
+    image: infra:latest
+    build:
+      context: infra
+    networks:
+      - sparsh-network
+
+volumes:
+  staticbuild:
+
+networks:
+  sparsh-network:
+    name: sparsh-network
+    driver: bridge
